@@ -90,33 +90,6 @@ class geography {
 
 var geo = new geography;
 
-function write_english_place(param) {
-	var retCountries = geo.get_english_speaking_countries();
-	var retCities = geo.get_english_speaking_cities();
-
-	if (retCountries[0] == null)
-		console.log("Il n'y aucun(e) pays/ville anglophone enregistré.");
-	else {
-		if (param == "pays")
-			console.log("Les pays anglophones sont : "+retCountries.toString());
-		else if (param == "ville")
-			console.log("Les villes anglophones sont : "+retCities.toString());
-	}
-}
-
-function write_continent_place() {
-	var continent = prompt("Quel continent voulez-vous observer ?");
-	var retCountries = geo.get_countries_by_continent(continent);
-	var retCities = geo.get_cities_by_continent(continent);
-
-	if (retCountries[0] == null)
-		console.log("Il n'y a pas de pays associé à ce continent.");
-	else {
-		console.log("Les pays appartenant à "+continent+" sont : "+retCountries.toString());
-		console.log("Les villes appartenant à "+continent+" sont : "+retCities.toString());
-	}
-}
-
 function add_place(place) {
 	if (place == "ville")
 	{
@@ -124,13 +97,13 @@ function add_place(place) {
 
 		if (ret == null)
 		{
-			console.log("Une erreur s'est produite avec la donnée saisie");
+			console.log("Une erreur s'est produite avec la donnée saisie.");
 			return ;
 		}
 		cityArray = ret.split(', ');
 		if (cityArray.length != 2)
 		{
-			console.log("Mauvais format de ville saisie");
+			console.log("Mauvais format de ville saisie.");
 			return ;
 		}
 		cityObjet = {
@@ -145,19 +118,24 @@ function add_place(place) {
 
 		if (ret == null)
 		{
-			console.log("Une erreur s'est produite avec la donnée saisie");
+			console.log("Une erreur s'est produite avec la donnée saisie.");
 			return ;
 		}
 		countryArray = ret.split(', ');
 		if (countryArray.length != 3)
 		{
-			console.log("Mauvais format de pays saisie");
+			console.log("Mauvais format de pays saisie.");
 			return ;
 		}
 		if (countryArray[2] == "oui")
 			countryArray[2] = true;
 		else if (countryArray[2] == "non")
 			countryArray[2] = false;
+		else
+		{
+			console.log("Une erreur s'est produite avec la donnée saisie.");
+			return ;
+		}
 		countryObjet = {
 			'country_name' : countryArray[0],
 			'continent' : countryArray[1],
@@ -169,4 +147,37 @@ function add_place(place) {
 		return this.charAt(0).toUpperCase() + this.slice(1);
 	}
 	console.log(place.capitalize(),"ajouté(e) !");
+}
+
+function write_english_place(param) {
+	var retCountries = geo.get_english_speaking_countries();
+	var retCities = geo.get_english_speaking_cities();
+
+	if (retCountries[0] == null)
+		console.log("Il n'y aucun(e) pays/ville anglophone enregistré(e).");
+	else {
+		if (param == "pays")
+			console.log("Les pays anglophones sont : "+retCountries.toString());
+		else if (param == "ville")
+			console.log("Les villes anglophones sont : "+retCities.toString());
+	}
+}
+
+function write_continent_place() {
+	var continent = prompt("Quel continent voulez-vous observer ?");
+
+	if (continent != null)
+	{
+		var retCountries = geo.get_countries_by_continent(continent);
+		var retCities = geo.get_cities_by_continent(continent);
+
+		if (retCountries[0] == null)
+			console.log("Il n'y a pas de pays associé à ce continent.");
+		else {
+			console.log("Les pays appartenant à l'"+continent+" sont : "+retCountries.toString());
+			console.log("Les villes appartenant à l'"+continent+" sont : "+retCities.toString());
+		}
+	}
+	else
+		console.log("Une erreur s'est produite avec la donnée saisie.");
 }
